@@ -20,10 +20,53 @@ Built for clinical postings at JUTH (Jos University Teaching Hospital), Nigeria.
   - **Geeky Medics guides** — curated per-posting examination guides with video demonstrations (step-by-step OSCE guides, checklists).
 - **Offline-first** — clerks, Drive links, and references are stored on-device (localStorage). Works without a network except for Drive embeds and external links.
 
+## Getting started
+
+Requires Node.js 18+ and npm.
+
+```bash
+# install dependencies (creates node_modules/ locally — never committed)
+npm install
+
+# start the dev server (hot reload at http://localhost:5173)
+npm run dev
+
+# production build to dist/
+npm run build
+
+# preview the production build locally
+npm run preview
+```
+
+To install on a phone for offline use: run `npm run build`, host `dist/` anywhere static (GitHub Pages, Netlify, Vercel), then add to home screen.
+
 ## Tech
 
-- Single-file React app (`src/App.tsx`) using Tailwind-style utility classes and a small set of UI primitives (`Button`, `Input`, `Textarea`, `Label`, `Tabs`, `Card`, `Badge`, `Select`).
-- No backend — everything is client-side. To deploy as a standalone site, wrap `App.tsx` in any React bundler (e.g. Vite) and map the `@/components/ui/*` imports to your component library (e.g. shadcn/ui).
+- **Vite 5 + React 18 + TypeScript** — bundling & dev server
+- **Tailwind CSS 3** — utility styling
+- **Radix UI primitives** (`react-tabs`, `react-select`, `react-label`) + `class-variance-authority`/`clsx`/`tailwind-merge` — the `@/components/ui/*` component layer (shadcn/ui-style)
+- **No backend** — everything is client-side; data persists in `localStorage`
+- `@` path alias is mapped to `src/` in both `vite.config.ts` and `tsconfig.json`
+
+## Project structure
+
+```
+├── index.html
+├── package.json            # scripts: dev / build / preview
+├── vite.config.ts          # react plugin + @ alias
+├── tsconfig.json
+├── tailwind.config.js
+├── postcss.config.js
+└── src/
+    ├── main.tsx            # entry — mounts App on #root
+    ├── index.css           # tailwind directives
+    ├── App.tsx             # the entire Clark app
+    ├── lib/
+    │   └── utils.ts        # cn() class merger
+    └── components/ui/     # button, input, textarea, label, tabs, card, badge, select
+```
+
+`node_modules/` and `dist/` are gitignored — dependencies are installed from `package.json` via `npm install`, never pushed to the repo.
 
 ## Disclaimer
 
